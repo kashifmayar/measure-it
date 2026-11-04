@@ -21,7 +21,13 @@ from calibration.camera_params import CameraCalibration, load_camera_params
 from calibration.image_io import read_image_bgr
 from measurement.aruco_detector import draw_marker, select_marker
 from measurement.config import MeasurementConfig
-from measurement.pen_detector import BASELINE_METHOD, detect_pen_baseline, draw_pen_overlay
+from measurement.pen_detector import (
+    BASELINE_METHOD,
+    UNET_METHOD,
+    detect_pen_baseline,
+    detect_pen_unet,
+    draw_pen_overlay,
+)
 from measurement.perspective import rectify_plane
 
 logger = logging.getLogger(__name__)
@@ -98,6 +104,10 @@ def measure_pen_image(
     config: MeasurementConfig,
     *,
     allow_poor_calibration: bool = False,
+    checkpoint: Optional[Path] = None,
+    fallback_baseline: bool = True,
+    seg_threshold: float = 0.5,
+    skip_undistort: bool = False,
 ) -> tuple[MeasurementResult, Optional[np.ndarray], Optional[np.ndarray], Optional[np.ndarray]]:
     """
     Returns (result, annotated_bgr, rectified_bgr, mask).
@@ -142,10 +152,13 @@ def measure_pen_image(
             base_fail.rejection_reason = calib_msg
             return base_fail, None, None, None
 
-    undist, res_err = _undistort_bgr(bgr, calib)
-    if res_err:
-        base_fail.rejection_reason = res_err
-        return base_fail, None, None, None
+    if skip_undistort:
+        undist, res_err = bgr, None
+    else:
+        undist, res_err = _undistort_bgr(bgr, calib)
+        if res_err:
+            base_fail.rejection_reason = res_err
+            return base_fail, None, None, None
 
     gray = cv2.cvtColor(undist, cv2.COLOR_BGR2GRAY)
     marker, reason = select_marker(
@@ -166,11 +179,33 @@ def measure_pen_image(
     plane = rectify_plane(
         undist, marker, config.marker_size_mm, config.pixels_per_mm
     )
-    pen, pen_reason = detect_pen_baseline(plane.image, config)
+
+    seg_method = BASELINE_METHOD
+    pen, pen_reason = None, ""
+    if checkpoint is not None:
+        pen, pen_reason = detect_pen_unet(
+            plane.image, config, checkpoint, seg_threshold=seg_threshold
+        )
+        seg_method = UNET_METHOD
+        if pen is None and fallback_baseline:
+            pen, pen_reason = detect_pen_baseline(plane.image, config)
+            seg_method = BASELINE_METHOD
+    else:
+        pen, pen_reason = detect_pen_baseline(plane.image, config)
+
+    base_fail.segmentation_method = seg_method
     if pen is None:
         base_fail.rejection_reason = pen_reason
         annotated = draw_marker(undist, marker)
         return base_fail, annotated, plane.image, None
+
+    if pen.confidence < config.min_pen_confidence:
+        base_fail.rejection_reason = (
+            f"Pen segmentation confidence {pen.confidence:.3f} below "
+            f"threshold {config.min_pen_confidence}"
+        )
+        annotated = draw_marker(undist, marker)
+        return base_fail, annotated, plane.image, pen.mask
 
     annotated_rect = draw_pen_overlay(plane.image, pen)
     annotated = draw_marker(undist, marker)
@@ -185,7 +220,7 @@ def measure_pen_image(
         marker_size_mm=config.marker_size_mm,
         measurement_plane_valid=True,
         measurement_method=MEASUREMENT_METHOD,
-        segmentation_method=BASELINE_METHOD,
+        segmentation_method=pen.method,
         rejection_reason=None,
         marker_quality=round(marker.quality_score, 3),
         pen_confidence=round(pen.confidence, 3),

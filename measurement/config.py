@@ -19,3 +19,4 @@ class MeasurementConfig:
     pen_margin_from_border_px: int = 8
     aruco_mask_inflate_px: int = 12
     min_contour_solidity: float = 0.35
+    min_pen_confidence: float = 0.35

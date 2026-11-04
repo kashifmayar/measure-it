@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional, Tuple
 
 import cv2
@@ -19,6 +20,7 @@ from measurement.config import MeasurementConfig
 logger = logging.getLogger(__name__)
 
 BASELINE_METHOD = "classical_cv_baseline"
+UNET_METHOD = "unet_segmentation"
 
 
 @dataclass
@@ -88,34 +90,19 @@ def _contour_width_along_perpendicular(contour: np.ndarray, angle_deg: float) ->
     return float(min(rect[1]))
 
 
-def detect_pen_baseline(
-    rectified_bgr: np.ndarray,
+def _pen_from_binary_mask(
+    mask: np.ndarray,
     config: MeasurementConfig,
     *,
-    origin_margin_mm: float = 5.0,
+    method: str,
+    model_confidence: float = 0.0,
 ) -> Tuple[Optional[PenDetectionResult], str]:
-    """
-    Detect pen on a metric-rectified image. Returns failure reason if ambiguous.
-    """
-    if config.marker_size_mm <= 0:
-        return None, "Marker physical size (mm) is not configured"
-
+    """Shared geometry from a binary pen mask on the rectified plane."""
     ppm = config.pixels_per_mm
-    gray = cv2.cvtColor(rectified_bgr, cv2.COLOR_BGR2GRAY)
-    h, w = gray.shape
-
-    aruco_mask = _marker_mask_rectified(
-        rectified_bgr,
-        config.marker_size_mm,
-        ppm,
-        origin_margin_mm,
-        config.aruco_mask_inflate_px,
-    )
-    fg = _foreground_mask(gray, aruco_mask)
-
-    contours, _ = cv2.findContours(fg, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    h, w = mask.shape[:2]
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
-        return None, "Pen not detected (no foreground contours)"
+        return None, "Pen not detected (empty segmentation mask)"
 
     img_area = h * w
     candidates = []
@@ -149,34 +136,94 @@ def detect_pen_baseline(
         candidates.append((area, cnt, rect, aspect, solidity))
 
     if not candidates:
-        return None, "Pen not detected (no contour passed filters; try clearer background)"
+        return None, "Pen not detected (segmentation mask failed shape filters)"
 
     if len(candidates) > 1:
         candidates.sort(key=lambda t: t[0], reverse=True)
         if candidates[0][0] < candidates[1][0] * 1.25:
-            return None, "Pen segmentation ambiguous (multiple similar contours)"
+            return None, "Pen segmentation ambiguous (multiple similar regions)"
 
     _, contour, rect, aspect, solidity = candidates[0]
     length_px = max(rect[1])
     width_px = min(rect[1])
-    length_mm = length_px / ppm
-    width_mm = width_px / ppm
-
-    mask = np.zeros((h, w), dtype=np.uint8)
-    cv2.drawContours(mask, [contour], -1, 255, thickness=cv2.FILLED)
-
-    confidence = min(1.0, 0.4 + 0.2 * min(aspect / 8.0, 1.0) + 0.4 * solidity)
-
+    confidence = model_confidence if method == UNET_METHOD else min(
+        1.0, 0.4 + 0.2 * min(aspect / 8.0, 1.0) + 0.4 * solidity
+    )
+    out_mask = np.zeros((h, w), dtype=np.uint8)
+    cv2.drawContours(out_mask, [contour], -1, 255, thickness=cv2.FILLED)
     return PenDetectionResult(
         contour=contour,
-        mask=mask,
-        length_mm=length_mm,
-        max_width_mm=width_mm,
+        mask=out_mask,
+        length_mm=length_px / ppm,
+        max_width_mm=width_px / ppm,
         length_px=length_px,
         max_width_px=width_px,
         center=(float(rect[0][0]), float(rect[0][1])),
         confidence=confidence,
+        method=method,
     ), ""
+
+
+_UNET_CACHE: dict[str, object] = {}
+
+
+def detect_pen_unet(
+    rectified_bgr: np.ndarray,
+    config: MeasurementConfig,
+    checkpoint: Path,
+    *,
+    origin_margin_mm: float = 5.0,
+    seg_threshold: float = 0.5,
+) -> Tuple[Optional[PenDetectionResult], str]:
+    from models.inference import PenUNet
+
+    ck = Path(checkpoint)
+    if not ck.is_file():
+        return None, f"Missing U-Net checkpoint: {checkpoint}"
+
+    key = str(ck.resolve())
+    if key not in _UNET_CACHE:
+        _UNET_CACHE[key] = PenUNet(ck)
+    segmenter = _UNET_CACHE[key]
+    mask, conf = segmenter.predict_mask(rectified_bgr, threshold=seg_threshold)
+
+    ppm = config.pixels_per_mm
+    aruco_mask = _marker_mask_rectified(
+        rectified_bgr,
+        config.marker_size_mm,
+        ppm,
+        origin_margin_mm,
+        config.aruco_mask_inflate_px,
+    )
+    mask = cv2.bitwise_and(mask, cv2.bitwise_not(aruco_mask))
+    return _pen_from_binary_mask(
+        mask, config, method=UNET_METHOD, model_confidence=conf
+    )
+
+
+def detect_pen_baseline(
+    rectified_bgr: np.ndarray,
+    config: MeasurementConfig,
+    *,
+    origin_margin_mm: float = 5.0,
+) -> Tuple[Optional[PenDetectionResult], str]:
+    """
+    Detect pen on a metric-rectified image. Returns failure reason if ambiguous.
+    """
+    if config.marker_size_mm <= 0:
+        return None, "Marker physical size (mm) is not configured"
+
+    ppm = config.pixels_per_mm
+    gray = cv2.cvtColor(rectified_bgr, cv2.COLOR_BGR2GRAY)
+    aruco_mask = _marker_mask_rectified(
+        rectified_bgr,
+        config.marker_size_mm,
+        ppm,
+        origin_margin_mm,
+        config.aruco_mask_inflate_px,
+    )
+    fg = _foreground_mask(gray, aruco_mask)
+    return _pen_from_binary_mask(fg, config, method=BASELINE_METHOD)
 
 
 def draw_pen_overlay(
@@ -187,7 +234,7 @@ def draw_pen_overlay(
     cv2.drawContours(out, [result.contour], -1, (255, 0, 0), 2)
     text = (
         f"L={result.length_mm:.1f}mm W={result.max_width_mm:.1f}mm "
-        f"({BASELINE_METHOD})"
+        f"({result.method})"
     )
     cv2.putText(out, text, (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
     return out

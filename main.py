@@ -26,7 +26,7 @@ DEFAULT_OUT = Path("measurement") / "output"
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         description=(
-            "Undistort, detect ArUco, rectify plane, and measure pen (baseline CV).\n"
+            "Undistort, detect ArUco, rectify plane, segment pen (U-Net or baseline CV), mm.\n"
             "Marker physical size (--marker-size-mm) is required."
         )
     )
@@ -66,6 +66,28 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Run even if calibration reprojection error is high (not for production).",
     )
+    p.add_argument(
+        "--checkpoint",
+        type=Path,
+        default=None,
+        help="U-Net weights (e.g. models/runs/unet_pen/best.pt). Omit for baseline CV only.",
+    )
+    p.add_argument(
+        "--no-fallback-baseline",
+        action="store_true",
+        help="With --checkpoint, do not fall back to classical CV if U-Net fails.",
+    )
+    p.add_argument(
+        "--seg-threshold",
+        type=float,
+        default=0.5,
+        help="U-Net mask probability threshold.",
+    )
+    p.add_argument(
+        "--skip-undistort",
+        action="store_true",
+        help="Use raw image (or pre-undistorted file) without applying calibration undistort.",
+    )
     return p
 
 
@@ -89,6 +111,10 @@ def main() -> None:
         args.params.resolve(),
         config,
         allow_poor_calibration=args.allow_poor_calibration,
+        checkpoint=args.checkpoint.resolve() if args.checkpoint else None,
+        fallback_baseline=not args.no_fallback_baseline,
+        seg_threshold=args.seg_threshold,
+        skip_undistort=args.skip_undistort,
     )
     stem = args.image.stem
     json_path = save_measurement_outputs(
@@ -99,7 +125,7 @@ def main() -> None:
         print(
             f"OK: length={result.pen_length_mm} mm, "
             f"max_width={result.pen_max_width_mm} mm "
-            f"(baseline CV, not trained segmentation)"
+            f"({result.segmentation_method})"
         )
         print(f"Results -> {json_path}")
         sys.exit(0)
