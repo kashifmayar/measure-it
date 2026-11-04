@@ -3,3 +3,6 @@ opencv-contrib-python>=4.8,<5
 Pillow>=10.0
 pillow-heif>=0.16
 pytest>=8.0
+torch>=2.2,<3
+torchvision>=0.17,<1
+matplotlib>=3.8,<4
