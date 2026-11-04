@@ -1,0 +1,5 @@
+numpy>=1.26,<3
+opencv-contrib-python>=4.8,<5
+Pillow>=10.0
+pillow-heif>=0.16
+pytest>=8.0

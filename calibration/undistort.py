@@ -40,8 +40,15 @@ import argparse
 import sys
 from pathlib import Path
 
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
 import cv2
 import numpy as np
+
+from calibration.camera_params import load_camera_params
+from calibration.image_io import read_image_bgr
 
 
 # ---------------------------------------------------------------------------
@@ -64,49 +71,9 @@ ALPHA_CROP: float = 0.0
 def load_calibration_params(
     params_path: Path,
 ) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
-    """
-    Load camera calibration parameters from an .npz file.
-
-    Parameters
-    ----------
-    params_path : Path
-        Path to the .npz file saved by calibrate.py.
-
-    Returns
-    -------
-    camera_matrix : np.ndarray, shape (3, 3)
-    dist_coeffs   : np.ndarray, shape (1, 5) or similar
-    image_size    : (width, height)
-
-    Raises
-    ------
-    FileNotFoundError
-        If the params file does not exist.
-    KeyError
-        If required keys are missing from the .npz file.
-    """
-    if not params_path.is_file():
-        raise FileNotFoundError(
-            f"Calibration parameters not found: {params_path.resolve()}\n"
-            "Run calibrate.py first to generate camera_params.npz."
-        )
-
-    data = np.load(str(params_path))
-
-    required_keys = {"camera_matrix", "dist_coeffs", "image_size"}
-    missing = required_keys - set(data.files)
-    if missing:
-        raise KeyError(
-            f"Missing keys in {params_path}: {missing}\n"
-            "Re-run calibrate.py to regenerate the params file."
-        )
-
-    camera_matrix: np.ndarray = data["camera_matrix"]
-    dist_coeffs: np.ndarray = data["dist_coeffs"]
-    image_size_arr: np.ndarray = data["image_size"]
-    image_size = (int(image_size_arr[0]), int(image_size_arr[1]))  # (width, height)
-
-    return camera_matrix, dist_coeffs, image_size
+    """Load NPZ; returns (camera_matrix, dist_coeffs, (width, height))."""
+    calib = load_camera_params(params_path)
+    return calib.camera_matrix, calib.dist_coeffs, calib.image_size_wh
 
 
 # ---------------------------------------------------------------------------
@@ -320,7 +287,7 @@ def run_undistort(
         print(f"[ERROR] Input image not found: {input_path.resolve()}")
         sys.exit(1)
 
-    img = cv2.imread(str(input_path))
+    img = read_image_bgr(input_path, normalize_orientation=True)
     if img is None:
         print(f"[ERROR] Could not read image: {input_path}")
         sys.exit(1)

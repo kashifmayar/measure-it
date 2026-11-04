@@ -6,12 +6,14 @@ Measurable objectives for the xis.ai assessment v2.0. Targets are **chosen befor
 
 | Field | Value |
 |-------|--------|
-| CPU | _TBD_ |
-| GPU | _TBD_ |
-| RAM | _TBD_ |
-| OS | Windows 10/11 (build _TBD_) |
-| Camera | iPhone rear main (_model TBD_) |
-| Image resolution | _TBD_ (must match calibration lock) |
+| CPU | Intel Core i5-8365U |
+| GPU | Intel UHD Graphics 620 (CPU inference) |
+| RAM | 16 GB |
+| OS | Windows (local dev) |
+| Camera | **iPhone 12**, rear main camera (fixed settings after calibration lock) |
+| Checkerboard square (measured) | **20 mm** (use `calibrate.py --square-size 20.0`) |
+| ArUco marker edge (physical) | **Not set in code** — measure printed marker with ruler; record mm here after measuring |
+| Image resolution | 3024×4032 px (portrait-normalized HEIC from iPhone 12) |
 
 ---
 
@@ -86,7 +88,9 @@ Each row maps to assessment deliverables. **Verification** describes how complet
 ### Calibration
 
 ```text
-(not run yet)
+2026-11-04 run: 28 discovered, 23 used, 5 failed detection (incl. pen shots in cal folder)
+mean_reprojection_error_px ≈ 16.86 (POOR — recalibrate before MO-1)
+See calibration/calibration_report.json
 ```
 
 ### Segmentation (test split)

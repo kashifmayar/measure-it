@@ -1,0 +1,30 @@
+filename,directory,format,width,height,checkerboard_detected,aruco_detected,aruco_ids,pen_heuristic,pen_notes,sharpness,quality_concerns
+IMG_2178.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),1788.38,
+IMG_2179.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),616.46,
+IMG_2180.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),522.11,
+IMG_2181.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),537.04,
+IMG_2182.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),470.49,
+IMG_2183.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),148.93,
+IMG_2184.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),297.23,
+IMG_2185.HEIC,calibration\images,.heic,4032,3024,False,False,,True,possible elongated structure (Hough lines),237.14,neither checkerboard nor ArUco detected
+IMG_2186.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),250.79,
+IMG_2187.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),266.35,
+IMG_2188.HEIC,calibration\images,.heic,4032,3024,False,False,,True,possible elongated structure (Hough lines),249.72,neither checkerboard nor ArUco detected
+IMG_2189.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),275.77,
+IMG_2190.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),360.17,
+IMG_2191.HEIC,calibration\images,.heic,3024,4032,False,False,,True,possible elongated structure (Hough lines),260.89,neither checkerboard nor ArUco detected
+IMG_2192.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),294.64,
+IMG_2193.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),326.65,
+IMG_2194.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),326.8,
+IMG_2195.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),1143.71,
+IMG_2196.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),262.27,
+IMG_2197.HEIC,calibration\images,.heic,4032,3024,True,False,,True,possible elongated structure (Hough lines),238.24,
+IMG_2198.HEIC,calibration\images,.heic,4032,3024,False,False,,False,no strong pen-like structure detected,239.1,neither checkerboard nor ArUco detected
+IMG_2199.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),299.51,
+IMG_2200.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),258.45,
+IMG_2201.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),260.58,
+IMG_2202.HEIC,calibration\images,.heic,3024,4032,True,False,,True,possible elongated structure (Hough lines),776.23,
+IMG_2203.HEIC,calibration\images,.heic,3024,4032,False,True,0,True,possible elongated structure (Hough lines),646.59,
+IMG_2204.HEIC,calibration\images,.heic,3024,4032,False,False,,True,possible elongated structure (Hough lines),741.32,neither checkerboard nor ArUco detected
+IMG_2205.HEIC,calibration\images,.heic,3024,4032,False,False,,True,possible elongated structure (Hough lines),1049.98,neither checkerboard nor ArUco detected
+IMG_2205.HEIC,measurement\images,.heic,3024,4032,False,False,,True,possible elongated structure (Hough lines),1049.98,neither checkerboard nor ArUco detected
