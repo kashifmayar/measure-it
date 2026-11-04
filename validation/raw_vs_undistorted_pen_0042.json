@@ -1,0 +1,33 @@
+{
+  "image": "pen_0042.HEIC",
+  "raw": {
+    "image": "pen_0042.HEIC",
+    "status": "rejected",
+    "pen_length_mm": null,
+    "pen_max_width_mm": null,
+    "marker_detected": true,
+    "marker_id": 0,
+    "marker_size_mm": 34.0,
+    "measurement_plane_valid": false,
+    "measurement_method": "aruco_planar_homography",
+    "segmentation_method": "classical_cv_baseline",
+    "rejection_reason": "Pen not detected (segmentation mask failed shape filters)",
+    "marker_quality": null,
+    "pen_confidence": null
+  },
+  "undistorted": {
+    "image": "pen_0042.HEIC",
+    "status": "rejected",
+    "pen_length_mm": null,
+    "pen_max_width_mm": null,
+    "marker_detected": false,
+    "marker_id": 0,
+    "marker_size_mm": 34.0,
+    "measurement_plane_valid": false,
+    "measurement_method": "aruco_planar_homography",
+    "segmentation_method": "classical_cv_baseline",
+    "rejection_reason": "Marker aspect ratio unrealistic (1.41)",
+    "marker_quality": null,
+    "pen_confidence": null
+  }
+}

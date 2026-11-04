@@ -124,7 +124,14 @@ Acceptance checklist for assessment v2.0. Boxes are ticked only when **evidence*
 List anything not completed and why:
 
 ```text
-(none listed yet — project in early documentation phase)
+- Calibration quality: mean reprojection ~16.9 px (POOR). Blocks trustworthy mm until recalibrated (<1 px).
+- MO-2 segmentation: test IoU ~0.43 vs target 0.80 — needs finished training + likely GPU / more epochs.
+- MO-1 ruler validation: validation/ruler_refs.csv not filled (≥10 manual measurements).
+- Raw vs undistorted table, failure-condition series, rejection batch report: scripts exist; not run with final marker mm.
+- Git: training code + models/ not yet committed in incremental commits; models/runs/ gitignored (weights via release or local path).
+- Loom demo, PR dev-test01→main, submission email: not done.
+- docs/Plan.md §15 decision record: still draft.
+- ArUco physical size: **34 mm** recorded in Objectives; use in all CLI runs and validation tables.
 ```
 
 ---
@@ -134,4 +141,4 @@ List anything not completed and why:
 - [ ] I did not tick boxes without evidence — **Evidence:** _self-review date_
 - [ ] All numbers in docs are reproducible from this repo — **Evidence:** _review date_
 
-**Last updated:** documentation draft; implementation not started.
+**Last updated:** 2026-11-05 — pipeline largely implemented; evidence columns still need your runs and commits.
