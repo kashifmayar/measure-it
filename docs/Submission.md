@@ -32,7 +32,7 @@ Drop `--skip-undistort` / `--allow-poor-calibration` when reprojection ≤ 2 px.
 
 ## 4. Loom (≤5 min)
 
-Follow **`docs/Loom_Guide.md`** — includes **K1–K4** from the PDF.
+Follow **`docs/Loom_Script.md`** (step-by-step) and **`docs/Loom_Guide.md`** (K1–K4 rules).
 
 ## 5. Email
 
