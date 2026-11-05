@@ -12,7 +12,7 @@
 |------|---------|
 | ~1 min | New pen + ArUco photo → `main.py` → show mm → ruler/calliper same pen |
 | ~1.5 min | Code walk: undistort or skip → segment → ArUco → mm |
-| ~2.5 min | **K1–K4** out loud (no reading notes) |
+| ~2.5 min | **K1–K4** on recording |
 
 ---
 
@@ -44,7 +44,7 @@ Optional dashboard: `.\.venv\Scripts\python.exe demo\serve.py` → http://127.0.
 
 Suggested answers tied to this repo: **`Loom_Recording.md` → PART C**.
 
-**Rule:** “I don't know, here's what I tried” beats a confident wrong answer.
+Honest limits (e.g. calibration, MO-2 IoU) are acceptable if documented in the repo.
 
 ---
 

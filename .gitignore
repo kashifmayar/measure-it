@@ -40,6 +40,11 @@ validation/_failure_tmp.jpg
 validation/_loom_extract.txt
 validation/_pdf_extract.txt
 
+# Local-only notes (prep, scoring drafts — not for submission)
+docs/_*.md
+LOOM_PREP*.md
+docs/Manual_vs_Automated.md
+
 # Local bulk data / scratch (do not commit)
 *.zip
 pen dataset/

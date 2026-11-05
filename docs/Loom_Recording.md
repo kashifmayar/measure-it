@@ -1,71 +1,60 @@
-# Loom recording — full script and checklist (≤5 min)
+# Loom demonstration outline (≤5 min)
 
 **Assessment:** xis.ai AI / Computer Vision Technical Assessment v2.0 §7  
 **Branch / PR:** `dev-test01` → https://github.com/kashifmayar/measure-it/pull/1  
-**Rule:** Rehearse once; on camera speak naturally — **do not read this word-for-word**.
 
-Also see: [`marker_measure_which_side.png`](marker_measure_which_side.png) (which mm to measure on the print).
-
----
-
-## One-page checklist (print or second monitor)
-
-| Step | Done |
-|------|------|
-| `pytest tests\ -q` passes | ☐ |
-| `models\runs\unet_pen\best.pt` exists | ☐ |
-| ArUco printed; **outer black square** measured in mm (not inner pattern) | ☐ |
-| Pen + marker flat on desk; ruler/calliper ready | ☐ |
-| Loom: screen + webcam, **max 5:00** | ☐ |
-| Email: **PR #1 + Loom URL** within 24 h | ☐ |
-
-**Your marker (fit-to-page print):** outer black square **≈198 mm** per side → use `--marker-size-mm 198.0` (remeasure and use your average).
+**ArUco scale:** measure **outer black square** — [`marker_measure_which_side.png`](marker_measure_which_side.png). This project’s fit-to-page print: **~198 mm** → `--marker-size-mm 198.0`.
 
 ---
 
-## Timeline (assessor rubric)
+## Pre-flight checklist
 
-| Time | What you show |
-|------|----------------|
-| **0:00–1:00** | New photo → `main.py` → mm on screen → ruler/calliper on **same pen** |
-| **1:00–2:30** | Code path: load → undistort/skip → ArUco → rectified plane → U-Net → mm |
-| **2:30–5:00** | Answer **K1, K2, K3, K4** out loud |
+| Step | Requirement |
+|------|-------------|
+| Tests | `pytest tests\ -q` passes |
+| Weights | `models\runs\unet_pen\best.pt` present locally |
+| Marker | Outer black square measured in mm |
+| Scene | Pen + marker coplanar; ruler/calliper for same pen |
+| Length | Recording ≤ **5:00** |
+| Submit | Email **PR #1** + **Loom URL** (see `docs/Submission.md`) |
 
 ---
 
-## Before Record — terminal prep
+## Timeline
+
+| Time | Content |
+|------|---------|
+| **0:00–1:00** | New photo → `main.py` → mm output → ruler/calliper on same pen |
+| **1:00–2:30** | Code path: load → undistort or skip → ArUco → rectified plane → U-Net → mm |
+| **2:30–5:00** | **K1–K4** (assessment §7.2) |
+
+---
+
+## Pre-flight commands
 
 ```powershell
-cd "E:\Project\measure it"
+cd "<repo-root>"
 .\.venv\Scripts\Activate.ps1
 .\.venv\Scripts\python.exe -m pytest tests\ -q
 Test-Path models\runs\unet_pen\best.pt
 ```
 
-Copy a fresh iPhone photo to e.g. `measurement\images\loom_demo.HEIC` (or use fallback `dataset\raw\pen_0042.HEIC`).
-
-**Optional B-roll:** `.\.venv\Scripts\python.exe demo\serve.py` → http://127.0.0.1:8765/index.html
+Optional: `.\.venv\Scripts\python.exe demo\serve.py` → http://127.0.0.1:8765/index.html
 
 ---
 
-## PART A — Live demo (~1 minute)
+## PART A — Live demo (~1 min)
 
-### Say (intro, ~15 s)
+**Intro**
 
-> “This is **Measure It**: one iPhone photo of a pen and a printed ArUco marker on the same flat surface. The CLI reports **length** and **max width** in millimetres using a U-Net I trained on 87 CVAT masks — PyTorch, not YOLO.”
+> Measure It: one iPhone photo, pen + ArUco on a flat surface. CLI reports length and max width (mm) via U-Net on 87 CVAT masks (PyTorch). Scale from **outer black square** of marker (~**198 mm** on this print).
 
-> “Scale comes from the **outer black square** of the marker. I measured mine at about **198 millimetres** per side because I printed fit-to-page — **not** the small inner pattern.”
+**Steps**
 
-### Do on camera
-
-1. Lay **pen + ArUco** flat; all **four** marker corners visible.
-2. Take **one new photo** (rear camera).
-3. Copy to PC as `measurement\images\loom_demo.HEIC`.
-
-### Run (replace marker mm if you remeasured)
+1. Pen + ArUco flat; four marker corners visible.
+2. New rear-camera photo → e.g. `measurement\images\loom_demo.HEIC`.
 
 ```powershell
-cd "E:\Project\measure it"
 .\.venv\Scripts\python.exe main.py `
   --image measurement\images\loom_demo.HEIC `
   --marker-size-mm 198.0 `
@@ -75,16 +64,11 @@ cd "E:\Project\measure it"
   --output-dir measurement\output
 ```
 
-**While calibration reprojection is ~17 px:** keep `--allow-poor-calibration` and `--skip-undistort` on **raw HEIC**.  
-**After good calibration (≤2 px):** remove both flags.
+While reprojection ~**17 px**: keep `--allow-poor-calibration` and `--skip-undistort` on raw HEIC. After recalibration (≤2 px): omit both.
 
-### Show on screen
+**Show:** terminal OK line; `*_annotated.jpg`; ruler on same pen.
 
-- Terminal: `OK: length=… mm, max_width=… mm (unet_segmentation)`
-- Open `measurement\output\loom_demo_annotated.jpg` (or `*_rectified.jpg`)
-- **Same pen** with ruler/calliper — read length aloud (close is fine; width may differ from “max width from mask”)
-
-**Known-good fallback** (if live photo fails — say so honestly):
+**Fallback** (`dataset\raw\pen_0042.HEIC`) if live capture fails — state rejection reason if used:
 
 ```powershell
 .\.venv\Scripts\python.exe main.py `
@@ -96,115 +80,53 @@ cd "E:\Project\measure it"
   --output-dir measurement\output
 ```
 
-Example on this repo (ruler ~135 mm length, ~14 mm body width):
-
-- System: **138.37 mm** length, **18.47 mm** max width  
-- JSON: `measurement/output/pen_0042_result.json`
-
-### Say (wrap demo, ~10 s)
-
-> “If marker or pen fails checks, the JSON gives a **rejection reason**. Here we got **success** with marker quality and pen confidence in the JSON.”
+Evidence: `measurement/output/pen_0042_result.json` — **138.37 mm** length (ruler ~135 mm), **18.47 mm** max width.
 
 ---
 
-## PART B — Code walk (~1.5 minutes)
+## PART B — Code walk (~1.5 min)
 
-### Say
-
-> “I'll trace **one image** through the repo on branch **dev-test01**.”
-
-**Scroll in order — name each file aloud:**
-
-| Order | File | One line to say |
-|-------|------|-----------------|
-| 1 | `main.py` | Parses CLI, builds `MeasurementConfig`, calls `measure_pen_image`, writes JSON and overlays. |
-| 2 | `measurement/measure_pen.py` | Loads HEIC, optional `_undistort_bgr` or `--skip-undistort`, then marker + rectification + pen detect. |
-| 3 | `measurement/aruco_detector.py` | `DICT_4X4_50`, ID 0; corners are the **outer black square**. |
-| 4 | `measurement/perspective.py` | `rectify_plane()` — homography; marker side = `--marker-size-mm` on the metric plane. |
-| 5 | `measurement/pen_detector.py` | U-Net mask on rectified image; `length_mm = length_px / pixels_per_mm`. |
-| 6 | `models/unet.py` + `models/train.py` | U-Net trained on committed splits; metrics in `validation/test_metrics.json`. |
-| 7 | `dataset/splits/test.txt` | Test held out before training. |
-
-### Say (dataset)
-
-> “**87** labelled images, splits **61 / 17 / 9**, masks from CVAT; splits committed before training.”
+| File | Role |
+|------|------|
+| `main.py` | CLI → `measure_pen_image` → JSON and overlays |
+| `measurement/measure_pen.py` | Load HEIC; `_undistort_bgr` or `--skip-undistort` |
+| `measurement/aruco_detector.py` | `DICT_4X4_50`, ID 0; outer black square corners |
+| `measurement/perspective.py` | `rectify_plane()`; `--marker-size-mm` on metric plane |
+| `measurement/pen_detector.py` | U-Net mask; `length_mm = length_px / pixels_per_mm` |
+| `models/unet.py`, `models/train.py` | Training; test metrics in `validation/test_metrics.json` |
+| `dataset/splits/test.txt` | Held-out test (61/17/9 split) |
 
 ---
 
-## PART C — Four questions (~2.5 minutes)
+## PART C — K1–K4 (technical content)
 
-Answer **from memory**. Use **your** numbers below.
+### K1 — Pixels to millimetres + scene
 
-### K1 — Pixels to millimetres + valid scene
+- **Plane:** `measurement/perspective.py` — `rectify_plane()`, `_destination_corners` (~36–41).
+- **Pen:** `measurement/pen_detector.py` — `length_mm` / `max_width_mm` from rectified px ÷ `pixels_per_mm` (~157–158).
+- **Scene:** Coplanar pen + marker; four corners visible; measured **outer black** side; see `docs/Plan.md` §6.
 
-**Question:** Which file/line turns pixels into mm? What must be true about the scene?
+### K2 — Undistortion
 
-**Answer guide:**
+- **Code:** `measurement/measure_pen.py` — `_undistort_bgr()`; dataset via `calibration/undistort.py`.
+- **Evidence:** `validation/raw_vs_undistorted_ruler_stems.json` — **7/10** raw + skip vs **1/10** undistort at ~**17 px** reprojection; example `pen_0038` ~**2.3 mm** length delta.
 
-1. **Metric plane:** `measurement/perspective.py` — `rectify_plane()` maps ArUco corners so one marker side = `--marker-size-mm` with `pixels_per_mm` (default 8). See `_destination_corners` (~lines 36–41).
-2. **Pen size:** `measurement/pen_detector.py` — `length_mm = length_px / ppm`, `max_width_mm = width_px / ppm` (~lines 157–158) on the **rectified** image.
-3. **Scene:** Pen and marker on the **same flat plane**; all **four** corners visible; marker size = **measured outer black square** (see `docs/marker_measure_which_side.png`); not heavily tilted. Coplanarity: `docs/Plan.md` §6.
+### K3 — One reversal + cost
 
-**Story you can tell:** “I first used **34 mm** on the inner pattern and got ~**23 mm** pen length; with **198 mm** outer square I got ~**138 mm**, matching my ruler ~**135 mm**.”
+Examples: recalibrate checkerboard set; GPU retrain for IoU; reprint ArUco at 100% scale.
 
----
+### K4 — One gap + response
 
-### K2 — Undistortion + your numbers
+Examples: inner vs outer marker mm; `dataset/raw` vs `dataset/images`; skip-undistort until cal fixed; honest MO-2 metrics.
 
-**Question:** Where is undistortion applied, and how much did skipping it change error?
-
-**Answer guide:**
-
-- **Where:** `measurement/measure_pen.py` — `_undistort_bgr()` using `calibration/camera_params.npz`. Dataset prep: `calibration/undistort.py` / `scripts/prepare_dataset.py`.
-- **Your numbers:** `validation/raw_vs_undistorted_ruler_stems.json` — on 10 stems **7/10** succeed with `--skip-undistort`, **1/10** with full undistort while reprojection ~**17 px**.
-- **Example:** `pen_0038` raw **22.57 mm** vs undistorted **20.3 mm** (~**2.3 mm** on length).
-- **Honest line:** Raw HEIC + skip until recalibration; documented in README.
+**Close:** PR #1; `best.pt` local with SHA-256 in README.
 
 ---
 
-### K3 — One thing you would reverse
+## Related submission steps
 
-Pick **one** (your choice):
-
-| Choice | Cost |
-|--------|------|
-| Kept **poor calibration** too long | Reshoot 25+ checkerboard-only images, re-run `calibrate.py` — **hours**, but trustworthy undistort |
-| **CPU-only** U-Net (test IoU ~**0.60**, target 0.80) | Colab GPU + more epochs — **time**, higher segmentation quality |
-| Printed ArUco **fit-to-page** (198 mm marker) | Reprint at 100% scale (~40–50 mm outer) — easier desk photos |
-
----
-
-### K4 — One thing you did not understand
-
-Pick **one** (honest):
-
-| Topic | What you did |
-|-------|----------------|
-| **34 mm vs 198 mm** marker | Inner pattern ≠ OpenCV outer corners; fixed `--marker-size-mm` and added `marker_measure_which_side.png` |
-| **`dataset/images` vs `dataset/raw`** | Training JPGs often **no ArUco**; measure on **raw HEIC** |
-| **Double undistort** | Undistorted JPG + cal again broke detection → `--skip-undistort` |
-| **MO-2 below target** | Reported real `test_metrics.json`; planned GPU retrain |
-
-### Closing (~10 s)
-
-> “Pull request **#1** is open on my repo. Weights are local **`best.pt`** with SHA-256 in the README.”
-
----
-
-## After recording
-
-1. Watch once — under **5:00**? All **four** answers audible?
-2. Email assessors: **PR #1** + **Loom link**.
-3. Optional: merge PR to `main` after review.
-
----
-
-## Submission pointers
-
-| Item | Doc / command |
-|------|----------------|
-| Full checklist | `docs/Submission.md` |
-| Ruler table (≥10) | `validation/ruler_refs.csv` + `scripts/validate_ruler.py --marker-size-mm 198.0` |
-| Tests | `pytest tests\ -q` |
-
-**Do not claim perfect mm** until calibration reprojection ≤ 2 px and ruler CSV is filled.
+| Item | Location |
+|------|----------|
+| Checklist | `docs/Submission.md` |
+| Ruler validation | `validation/ruler_refs.csv` + `validate_ruler.py --marker-size-mm 198.0` |
+| K1–K4 rules | `docs/Loom_Guide.md` |
