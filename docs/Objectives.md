@@ -96,12 +96,12 @@ See calibration/calibration_report.json
 ### Segmentation (test split)
 
 ```text
-2026-11-05 eval (15-epoch CPU train, image_size=384, best val IoU=0.595):
-  mean_iou: 0.535
-  precision: 0.881
-  recall: 0.593
-  map_at_0.5: 0.556
-  map_0.5_0.95: 0.211
+2026-11-05 eval (12-epoch CPU train, image_size=256, best val IoU=0.631):
+  mean_iou: 0.596
+  precision: 0.756
+  recall: 0.674
+  map_at_0.5: 0.778
+  map_0.5_0.95: 0.344
   split: test, num_images: 9
   Source: models/runs/unet_pen/test_metrics.json
 MO-2 target (IoU ≥ 0.80, mAP@0.5 ≥ 0.75): NOT MET — retrain on GPU, more epochs, then re-eval once.
