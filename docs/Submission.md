@@ -6,7 +6,7 @@
 
 Open: **https://github.com/kashifmayar/measure-it/compare/main...dev-test01**
 
-Create the PR, then paste the URL here when done: `________________`
+**Pull request:** https://github.com/kashifmayar/measure-it/pull/1 (`dev-test01` → `main`, 9 commits)
 
 ## 2. Recalibrate (last step before you submit)
 

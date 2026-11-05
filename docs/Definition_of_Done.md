@@ -114,7 +114,7 @@ Acceptance checklist for assessment v2.0. Boxes are ticked only when **evidence*
 - [ ] `docs/Objectives.md` — MO-1 and MO-2 verified with raw outputs — **Evidence:** _results log_
 - [ ] MO-1 and MO-2 targets stated with justification — **Evidence:** _Objectives tables_
 - [ ] Loom ≤5 min with live demo + four knowledge questions — **Evidence:** _URL_
-- [ ] PR from `dev-test01` → `main` on my repo — **Evidence:** _PR URL_
+- [ ] PR from `dev-test01` → `main` on my repo — **Evidence:** https://github.com/kashifmayar/measure-it/pull/1
 - [ ] Submission reply with PR + Loom links within 24 h — **Evidence:** _sent timestamp_
 
 ---

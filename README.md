@@ -233,7 +233,7 @@ Commit `dataset/splits/` and `dataset/meta/` **before** training; add masks in `
 
 ## Submission and Loom
 
-- **PR:** https://github.com/kashifmayar/measure-it/compare/main...dev-test01 → merge `dev-test01` into `main`.
+- **PR:** https://github.com/kashifmayar/measure-it/pull/1 (`dev-test01` → `main`).
 - **Checklist:** `docs/Submission.md`
 - **Loom (5 min + K1–K4):** `docs/Loom_Guide.md` (questions from assessment PDF §7.2).
 
