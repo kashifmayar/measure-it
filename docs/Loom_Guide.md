@@ -29,6 +29,16 @@ cd "E:\Project\measure it"
 
 Pre-flight: `pytest tests\ -q`, `models\evaluate.py`, checkpoint exists at `models\runs\unet_pen\best.pt`.
 
+### Browser dashboard (optional, good for Loom B-roll)
+
+Shows metrics, pipeline, sample JSON, training curves:
+
+```powershell
+.\.venv\Scripts\python.exe demo\serve.py
+```
+
+Opens http://127.0.0.1:8765/index.html — record this alongside the terminal `main.py` run.
+
 ---
 
 ## The four questions (answer on camera)

@@ -25,6 +25,8 @@ dataset/masks_draft/*
 dataset/*.MOV
 dataset/*.HEIC
 models/runs/
+demo/index.html
+demo/training_curves.png
 validation/ruler_comparison.json
 validation/_failure_tmp.jpg
 !validation/test_metrics.json
