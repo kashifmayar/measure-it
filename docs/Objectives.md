@@ -12,7 +12,7 @@ Measurable objectives for the xis.ai assessment v2.0. Targets are **chosen befor
 | OS | Windows (local dev) |
 | Camera | **iPhone 12**, rear main camera (fixed settings after calibration lock) |
 | Checkerboard square (measured) | **20 mm** (use `calibrate.py --square-size 20.0`) |
-| ArUco marker edge (physical) | **34 mm** (measured black square; use `--marker-size-mm 34.0` on all measurement scripts) |
+| ArUco marker edge (physical) | **Outer black square** measured after print (this project **~198 mm** fit-to-page; use `--marker-size-mm` to match — see `docs/marker_measure_which_side.png`) |
 | Image resolution | 3024×4032 px (portrait-normalized HEIC from iPhone 12) |
 
 ---
@@ -110,8 +110,8 @@ MO-2 target (IoU ≥ 0.80, mAP@0.5 ≥ 0.75): NOT MET — retrain on GPU, more e
 ### Measurement validation (≥10 instances)
 
 ```text
-Demo pipeline (2026-11-05): dataset/raw/pen_0042.HEIC, marker 34 mm, --skip-undistort, U-Net
-  length=23.77 mm, max_width=3.03 mm, pen_confidence=0.998, marker_quality=0.795
+Demo pipeline (2026-11-05): dataset/raw/pen_0042.HEIC, marker outer square 198 mm, --skip-undistort, U-Net
+  length=138.37 mm (ruler ~135 mm), max_width=18.47 mm (calliper ~14 mm), pen_confidence=1.0, marker_quality=0.795
   -> measurement/output/pen_0042_result.json
 
 Test split batch (raw HEIC, skip undistort): 1/9 accepted — see validation/test_split_measurement_report.json

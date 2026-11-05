@@ -75,7 +75,7 @@ pip install -r requirements.txt
 ## Patterns and physical sizes
 
 - **Checkerboard:** 9×7 **inner corners** (10×8 squares). Measured square size for this project: **20 mm** → `calibrate.py --square-size 20.0`.
-- **ArUco:** generated at **600×600 px** only; **measured black square for this project: 34 mm** → pass `--marker-size-mm 34.0` to `main.py` and validation scripts (never assume a default in code).
+- **ArUco:** `calibration/patterns/aruco_4x4_50_id0.png`. Measure the **outer black square** (OpenCV corner to corner), **not** the inner white/pattern area — see [`docs/marker_measure_which_side.png`](docs/marker_measure_which_side.png). Pass that mm to `--marker-size-mm` on every measurement script (no default in code). This project’s fit-to-page print: **~198 mm** outer side; reprint at 100% scale if you want a ~40–50 mm marker instead.
 
 Generate patterns:
 
@@ -129,7 +129,7 @@ Portrait orientation is normalized to match calibration (landscape phone shots r
 Batch rejection stats on a split:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts\rejection_report.py --split test --marker-size-mm 34.0 --checkpoint models\runs\unet_pen\best.pt --allow-poor-calibration
+.\.venv\Scripts\python.exe scripts\rejection_report.py --split test --marker-size-mm 198.0 --checkpoint models\runs\unet_pen\best.pt --allow-poor-calibration
 ```
 
 ---
@@ -161,7 +161,7 @@ Use a GPU when available: `models\train.py --device cuda --batch-size 4`.
 ```powershell
 .\.venv\Scripts\python.exe main.py `
   --image measurement\images\IMG_2205.HEIC `
-  --marker-size-mm 34.0 `
+  --marker-size-mm 198.0 `
   --checkpoint models\runs\unet_pen\best.pt `
   --allow-poor-calibration `
   --skip-undistort `
@@ -180,7 +180,7 @@ CSV columns: `image,reference_length_mm,reference_width_mm` (stem matches `datas
 ```powershell
 .\.venv\Scripts\python.exe scripts\validate_ruler.py `
   --csv validation\ruler_refs.csv `
-  --marker-size-mm 34.0 `
+  --marker-size-mm 198.0 `
   --checkpoint models\runs\unet_pen\best.pt `
   --allow-poor-calibration
 ```
@@ -237,7 +237,7 @@ Commit `dataset/splits/` and `dataset/meta/` **before** training; add masks in `
 
 - **PR:** https://github.com/kashifmayar/measure-it/pull/1 (`dev-test01` → `main`).
 - **Checklist:** `docs/Submission.md`
-- **Loom (5 min + K1–K4):** `docs/Loom_Guide.md` (questions from assessment PDF §7.2).
+- **Loom (5 min + K1–K4):** [`docs/Loom_Recording.md`](docs/Loom_Recording.md) (full script); [`docs/Loom_Guide.md`](docs/Loom_Guide.md) (rules).
 
 **Trained weights (local, not in Git):** `models/runs/unet_pen/best.pt`  
 SHA-256: `FD2A9D20AA14632E8CB043A1D0B9B55867E2D7D798D4CBC769849EA952B2C838`  

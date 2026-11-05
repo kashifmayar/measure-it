@@ -1,16 +1,16 @@
 {
   "image": "pen_0042.HEIC",
   "status": "success",
-  "pen_length_mm": 23.77,
-  "pen_max_width_mm": 3.03,
+  "pen_length_mm": 138.37,
+  "pen_max_width_mm": 18.47,
   "marker_detected": true,
   "marker_id": 0,
-  "marker_size_mm": 34.0,
+  "marker_size_mm": 198.0,
   "measurement_plane_valid": true,
   "measurement_method": "aruco_planar_homography",
   "segmentation_method": "unet_segmentation",
   "rejection_reason": null,
   "marker_quality": 0.795,
-  "pen_confidence": 0.998,
-  "timestamp_utc": "2026-11-04T20:12:31.388604+00:00"
+  "pen_confidence": 1.0,
+  "timestamp_utc": "2026-11-05T12:30:44.162753+00:00"
 }

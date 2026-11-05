@@ -39,3 +39,12 @@ validation/_failure_tmp.jpg
 !validation/rejection_report_raw.json
 validation/_loom_extract.txt
 validation/_pdf_extract.txt
+
+# Local bulk data / scratch (do not commit)
+*.zip
+pen dataset/
+measurement/output4/
+measurement/output_debug/
+calibration/output/*.jpg
+calibration/output/*.jpeg
+!calibration/output/.gitkeep
