@@ -1,6 +1,5 @@
 # Zip dataset/images and dataset/masks for Colab upload
-$root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
-if (-not (Test-Path "$root\dataset\images")) { $root = "E:\Project\measure it" }
+$root = Split-Path -Parent $PSScriptRoot
 $out = Join-Path $root "dataset_colab_upload.zip"
 $images = Join-Path $root "dataset\images"
 $masks = Join-Path $root "dataset\masks"
