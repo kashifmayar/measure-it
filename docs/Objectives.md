@@ -29,7 +29,7 @@ Measurable objectives for the xis.ai assessment v2.0. Targets are **chosen befor
 | **Conditions** | Same iPhone settings as calibration; indoor diffuse light; pen and ArUco flat on one surface; inference CLI version committed on `dev-test01` |
 | **Not included** | Heavy motion blur; marker under 50% visible; pen occluded over 30%; photos where rejection logic fires |
 
-**Verification (when complete):** Paste per-instance table + summary rows from saved CSV/JSON; link or cite commit containing `measurement/` outputs. **Status: not verified.**
+**Verification:** `validation/ruler_refs.csv` (20 instances, reference columns filled) + `scripts/validate_ruler.py` at `--marker-size-mm 198.0 --skip-undistort --allow-poor-calibration`. **Status: verified 2026-11-05 — target NOT MET** (see results log).
 
 ---
 
@@ -110,17 +110,24 @@ MO-2 target (IoU ≥ 0.80, mAP@0.5 ≥ 0.75): NOT MET — retrain on GPU, more e
 ### Measurement validation (≥10 instances)
 
 ```text
-Demo pipeline (2026-11-05): dataset/raw/pen_0042.HEIC, marker outer square 198 mm, --skip-undistort, U-Net
-  length=138.37 mm (ruler ~135 mm), max_width=18.47 mm (calliper ~14 mm), pen_confidence=1.0, marker_quality=0.795
-  -> measurement/output/pen_0042_result.json
+Command:
+  scripts/validate_ruler.py --csv validation/ruler_refs.csv --marker-size-mm 198.0
+    --checkpoint models/runs/unet_pen/best.pt --allow-poor-calibration --skip-undistort
 
-Test split batch (raw HEIC, skip undistort): 1/9 accepted — see validation/test_split_measurement_report.json
-Ruler/calliper: validation/ruler_refs.csv (10+ rows with system mm prefilled) — fill reference_* columns, then validate_ruler.py.
+Summary (validation/ruler_comparison.json, 2026-11-05):
+  count: 20, successful: 17 (rejected: pen_0036, pen_0051, pen_0076)
+  length MAE: 20.93 mm, length mean % error: 15.12%
+  width MAE: 6.19 mm, width mean % error: 51.29%
+  MO-1 target (MAE ≤ 2 mm, mean |%| ≤ 5%): NOT MET on full set
 
-Rejection (test split JPG): validation/rejection_report_test.json — 0/9 (training crops, no ArUco).
-Rejection (raw HEIC, first 25 sorted): validation/rejection_report_raw.json — 0/25 (early files often no marker).
-Rejection on ruler stems: 7/10 accept with skip_undistort — see raw_vs_undistorted_ruler_stems.json.
-Thresholds: measurement/config.py; README.
+Best length cases (|error| ≤ ~4 mm): pen_0038, pen_0045, pen_0062, pen_0070, pen_0074, pen_0077, pen_0078, pen_0086
+Partial-seg / fallback failures inflate MAE (e.g. pen_0037, pen_0050, pen_0066, pen_0072, pen_0087).
+
+Per-instance table: validation/ruler_refs.csv (reference_* manual; system_* from script above).
+
+Demo single image: measurement/output/pen_0042_result.json — 138.37 mm vs ruler ~135 mm.
+
+Note: Conditions used raw HEIC + skip undistort (cal ~17 px); not yet undistorted face-on set.
 ```
 
 ### Raw vs undistorted comparison

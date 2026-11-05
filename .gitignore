@@ -27,7 +27,7 @@ dataset/*.HEIC
 models/runs/
 demo/index.html
 demo/training_curves.png
-validation/ruler_comparison.json
+# validation/ruler_comparison.json — committed after validate_ruler.py for MO-1 evidence
 validation/_failure_tmp.jpg
 !validation/test_metrics.json
 !validation/test_split_measurement_report.json
