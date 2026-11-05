@@ -148,6 +148,8 @@ Artifacts: `models/runs/unet_pen/best.pt`, `config.json`, `history.json`, `train
 
 Use a GPU when available: `models\train.py --device cuda --batch-size 4`.
 
+**Google Colab:** see [`notebooks/MeasureIt_Colab_GPU.ipynb`](notebooks/MeasureIt_Colab_GPU.ipynb) and [`notebooks/README.md`](notebooks/README.md) (upload `dataset/images` + `masks` zip; download `best.pt`).
+
 ---
 
 ## Pen measurement (U-Net or baseline CV)
