@@ -1,0 +1,137 @@
+{
+  "marker_size_mm": 34.0,
+  "rows": [
+    {
+      "image": "pen_0001.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "Pen not detected (segmentation mask failed shape filters)",
+      "undist_rejection": "Expected marker ID 0 not found (found IDs: [37])"
+    },
+    {
+      "image": "pen_0002.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "Expected marker ID 0 not found (found IDs: [17])"
+    },
+    {
+      "image": "pen_0003.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "ArUco marker not detected"
+    },
+    {
+      "image": "pen_0004.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "ArUco marker not detected"
+    },
+    {
+      "image": "pen_0005.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "ArUco marker not detected"
+    },
+    {
+      "image": "pen_0006.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "ArUco marker not detected"
+    },
+    {
+      "image": "pen_0007.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "ArUco marker not detected"
+    },
+    {
+      "image": "pen_0008.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "ArUco marker not detected"
+    },
+    {
+      "image": "pen_0009.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "ArUco marker not detected"
+    },
+    {
+      "image": "pen_0010.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "ArUco marker not detected"
+    },
+    {
+      "image": "pen_0011.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "Expected marker ID 0 not found (found IDs: [17])"
+    },
+    {
+      "image": "pen_0012.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null,
+      "raw_rejection": "ArUco marker not detected",
+      "undist_rejection": "ArUco marker not detected"
+    }
+  ]
+}

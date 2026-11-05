@@ -4,3 +4,52 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 .env
+*.MOV
+calibration/images/
+measurement/images/*.HEIC
+measurement/images/*.jpg
+measurement/images/*.jpeg
+measurement/images/*.png
+measurement/output/*
+!measurement/output/pen_0042_result.json
+calibration/camera_params.npz
+calibration/calibration_report.json
+dataset/raw/*
+!dataset/raw/.gitkeep
+dataset/images/*
+!dataset/images/.gitkeep
+dataset/masks/*
+!dataset/masks/.gitkeep
+dataset/masks_draft/*
+!dataset/masks_draft/.gitkeep
+dataset/*.MOV
+dataset/*.HEIC
+models/runs/
+demo/index.html
+demo/training_curves.png
+# validation/ruler_comparison.json — committed after validate_ruler.py for MO-1 evidence
+validation/_failure_tmp.jpg
+!validation/test_metrics.json
+!validation/test_split_measurement_report.json
+!validation/raw_vs_undistorted_pen_0042.json
+!validation/raw_vs_undistorted_batch.json
+!validation/rejection_report_test.json
+!validation/ruler_refs.csv
+!validation/raw_vs_undistorted_ruler_stems.json
+!validation/rejection_report_raw.json
+validation/_loom_extract.txt
+validation/_pdf_extract.txt
+
+# Local-only notes (prep, scoring drafts — not for submission)
+docs/_*.md
+LOOM_PREP*.md
+docs/Manual_vs_Automated.md
+
+# Local bulk data / scratch (do not commit)
+*.zip
+pen dataset/
+measurement/output4/
+measurement/output_debug/
+calibration/output/*.jpg
+calibration/output/*.jpeg
+!calibration/output/.gitkeep

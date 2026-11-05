@@ -114,7 +114,7 @@ Acceptance checklist for assessment v2.0. Boxes are ticked only when **evidence*
 - [ ] `docs/Objectives.md` — MO-1 and MO-2 verified with raw outputs — **Evidence:** _results log_
 - [ ] MO-1 and MO-2 targets stated with justification — **Evidence:** _Objectives tables_
 - [ ] Loom ≤5 min with live demo + four knowledge questions — **Evidence:** _URL_
-- [ ] PR from `dev-test01` → `main` on my repo — **Evidence:** _PR URL_
+- [ ] PR from `dev-test01` → `main` on my repo — **Evidence:** https://github.com/kashifmayar/measure-it/pull/1
 - [ ] Submission reply with PR + Loom links within 24 h — **Evidence:** _sent timestamp_
 
 ---
@@ -124,7 +124,12 @@ Acceptance checklist for assessment v2.0. Boxes are ticked only when **evidence*
 List anything not completed and why:
 
 ```text
-(none listed yet — project in early documentation phase)
+- Calibration: ~16.9 px reprojection — recalibrate (last step before submit).
+- MO-2: test IoU 0.535 (target 0.80) — document honestly; optional GPU retrain.
+- MO-1: validation/ruler_refs.csv has 10+ system rows; user must fill reference_* mm then run validate_ruler.py.
+- PR dev-test01→main: open via GitHub compare (gh not logged in on dev machine).
+- Loom + submission email: user (see docs/Loom_Guide.md).
+- Weights: models/runs/unet_pen/best.pt local; add SHA-256 to README (scripts/hash_checkpoint.ps1).
 ```
 
 ---
@@ -134,4 +139,4 @@ List anything not completed and why:
 - [ ] I did not tick boxes without evidence — **Evidence:** _self-review date_
 - [ ] All numbers in docs are reproducible from this repo — **Evidence:** _review date_
 
-**Last updated:** documentation draft; implementation not started.
+**Last updated:** 2026-11-05 — pipeline largely implemented; evidence columns still need your runs and commits.

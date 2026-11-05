@@ -1,0 +1,16 @@
+{
+  "timestamp_utc": "2026-11-04T19:05:05.847002+00:00",
+  "image_count": 87,
+  "mask_count": 87,
+  "missing_masks_count": 0,
+  "missing_masks_sample": [],
+  "orphan_masks_sample": [],
+  "split_counts": {
+    "train": 61,
+    "val": 17,
+    "test": 9
+  },
+  "assessment_minimum_images": 70,
+  "meets_image_count": true,
+  "ready_for_training": true
+}

@@ -1,0 +1,16 @@
+{
+  "timestamp_utc": "2026-11-04T16:38:40.560508+00:00",
+  "seed": 42,
+  "ratios": {
+    "train": 0.7,
+    "val": 0.2,
+    "test": 0.1
+  },
+  "counts": {
+    "total": 87,
+    "train": 61,
+    "val": 17,
+    "test": 9
+  },
+  "meets_minimum_70": true
+}

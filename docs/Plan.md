@@ -220,14 +220,15 @@ Compare ≥10 instances to calliper/ruler; compute MAE and mean percentage error
 
 ## 15. Decision record (fill when work completes)
 
-_To be updated at end of assessment (deliverable item 10)._
-
 | Decision | Chosen approach | Rejected alternative | Cost of rejection |
 |----------|-----------------|----------------------|-------------------|
-| Segmentation | U-Net + PyTorch (planned) | Ultralytics YOLO / Roboflow seg | Faster off-the-shelf but assessment-invalid |
+| Segmentation | U-Net + PyTorch (`models/unet.py`, BCE+Dice) | Ultralytics YOLO / Roboflow seg | Faster off-the-shelf but assessment-invalid |
 | Metric reference | ArUco on same plane as pen | Ruler only in image | Ruler detection harder; ArUco gives stable scale |
-| Scale from | Measured printed marker mm | Assumed 50 mm “standard” marker | Wrong print scale → systematic error |
-| _(add rows as choices are made)_ | | | |
+| Scale from | Measured **outer black square** of ArUco (~**198 mm** fit-to-page print; see `docs/marker_measure_which_side.png`) | Inner pattern only (~34 mm) or assumed 50 mm | Wrong side measured → ~6× length error until fixed |
+| Annotation | CVAT polygons → raster masks (`cvat_xml_to_masks.py`) | Roboflow auto-label | Manual QC time; trustworthy masks |
+| Training images | Undistorted JPG in `dataset/images/` | Train on distorted raw | Consistent with labels; measurement may use raw HEIC + `--skip-undistort` until cal is fixed |
+| Inference fallback | U-Net then classical CV (`--no-fallback-baseline` to disable) | U-Net only | Baseline rescues edge cases when seg fails |
+| Poor calibration | CLI rejects if reprojection > 2 px; `--allow-poor-calibration` for dev | Silent bad mm | Forces honest recalibration for MO-1 |
 
 ---
 

@@ -6,12 +6,14 @@ Measurable objectives for the xis.ai assessment v2.0. Targets are **chosen befor
 
 | Field | Value |
 |-------|--------|
-| CPU | _TBD_ |
-| GPU | _TBD_ |
-| RAM | _TBD_ |
-| OS | Windows 10/11 (build _TBD_) |
-| Camera | iPhone rear main (_model TBD_) |
-| Image resolution | _TBD_ (must match calibration lock) |
+| CPU | Intel Core i5-8365U |
+| GPU | Intel UHD Graphics 620 (CPU inference) |
+| RAM | 16 GB |
+| OS | Windows (local dev) |
+| Camera | **iPhone 12**, rear main camera (fixed settings after calibration lock) |
+| Checkerboard square (measured) | **20 mm** (use `calibrate.py --square-size 20.0`) |
+| ArUco marker edge (physical) | **Outer black square** measured after print (this project **~198 mm** fit-to-page; use `--marker-size-mm` to match — see `docs/marker_measure_which_side.png`) |
+| Image resolution | 3024×4032 px (portrait-normalized HEIC from iPhone 12) |
 
 ---
 
@@ -27,7 +29,7 @@ Measurable objectives for the xis.ai assessment v2.0. Targets are **chosen befor
 | **Conditions** | Same iPhone settings as calibration; indoor diffuse light; pen and ArUco flat on one surface; inference CLI version committed on `dev-test01` |
 | **Not included** | Heavy motion blur; marker under 50% visible; pen occluded over 30%; photos where rejection logic fires |
 
-**Verification (when complete):** Paste per-instance table + summary rows from saved CSV/JSON; link or cite commit containing `measurement/` outputs. **Status: not verified.**
+**Verification:** `validation/ruler_refs.csv` (20 instances, reference columns filled) + `scripts/validate_ruler.py` at `--marker-size-mm 198.0 --skip-undistort --allow-poor-calibration`. **Status: verified 2026-11-05 — target NOT MET** (see results log).
 
 ---
 
@@ -86,25 +88,55 @@ Each row maps to assessment deliverables. **Verification** describes how complet
 ### Calibration
 
 ```text
-(not run yet)
+2026-11-04 run: 28 discovered, 23 used, 5 failed detection (incl. pen shots in cal folder)
+mean_reprojection_error_px ≈ 16.86 (POOR — recalibrate before MO-1)
+See calibration/calibration_report.json
 ```
 
 ### Segmentation (test split)
 
 ```text
-(not run yet)
+2026-11-05 eval (12-epoch CPU train, image_size=256, best val IoU=0.631):
+  mean_iou: 0.596
+  precision: 0.756
+  recall: 0.674
+  map_at_0.5: 0.778
+  map_0.5_0.95: 0.344
+  split: test, num_images: 9
+  Source: models/runs/unet_pen/test_metrics.json
+MO-2 target (IoU ≥ 0.80, mAP@0.5 ≥ 0.75): NOT MET — retrain on GPU, more epochs, then re-eval once.
 ```
 
 ### Measurement validation (≥10 instances)
 
 ```text
-(not run yet)
+Command:
+  scripts/validate_ruler.py --csv validation/ruler_refs.csv --marker-size-mm 198.0
+    --checkpoint models/runs/unet_pen/best.pt --allow-poor-calibration --skip-undistort
+
+Summary (validation/ruler_comparison.json, 2026-11-05):
+  count: 20, successful: 17 (rejected: pen_0036, pen_0051, pen_0076)
+  length MAE: 20.93 mm, length mean % error: 15.12%
+  width MAE: 6.19 mm, width mean % error: 51.29%
+  MO-1 target (MAE ≤ 2 mm, mean |%| ≤ 5%): NOT MET on full set
+
+Best length cases (|error| ≤ ~4 mm): pen_0038, pen_0045, pen_0062, pen_0070, pen_0074, pen_0077, pen_0078, pen_0086
+Partial-seg / fallback failures inflate MAE (e.g. pen_0037, pen_0050, pen_0066, pen_0072, pen_0087).
+
+Per-instance table: validation/ruler_refs.csv (reference_* manual; system_* from script above).
+
+Demo single image: measurement/output/pen_0042_result.json — 138.37 mm vs ruler ~135 mm.
+
+Note: Conditions used raw HEIC + skip undistort (cal ~17 px); not yet undistorted face-on set.
 ```
 
 ### Raw vs undistorted comparison
 
 ```text
-(not run yet)
+Ruler stems (10): validation/raw_vs_undistorted_ruler_stems.json
+  raw_success: 7/10, undist_success: 1/10 (bad calibration ~17 px — undistort breaks ArUco on most frames)
+  Use --skip-undistort on raw HEIC until recalibration; then re-run scripts/raw_vs_undist_ruler_stems.py
+Single instance: validation/raw_vs_undistorted_pen_0042.json
 ```
 
 ---
