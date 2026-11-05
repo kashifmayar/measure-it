@@ -124,14 +124,12 @@ Acceptance checklist for assessment v2.0. Boxes are ticked only when **evidence*
 List anything not completed and why:
 
 ```text
-- Calibration quality: mean reprojection ~16.9 px (POOR). Blocks trustworthy mm until recalibrated (<1 px).
-- MO-2 segmentation: test IoU ~0.43 vs target 0.80 — needs finished training + likely GPU / more epochs.
-- MO-1 ruler validation: validation/ruler_refs.csv not filled (≥10 manual measurements).
-- Raw vs undistorted table, failure-condition series, rejection batch report: scripts exist; not run with final marker mm.
-- Git: training code + models/ not yet committed in incremental commits; models/runs/ gitignored (weights via release or local path).
-- Loom demo, PR dev-test01→main, submission email: not done.
-- docs/Plan.md §15 decision record: still draft.
-- ArUco physical size: **34 mm** recorded in Objectives; use in all CLI runs and validation tables.
+- Calibration: ~16.9 px reprojection — recalibrate (last step before submit).
+- MO-2: test IoU 0.535 (target 0.80) — document honestly; optional GPU retrain.
+- MO-1: validation/ruler_refs.csv has 10+ system rows; user must fill reference_* mm then run validate_ruler.py.
+- PR dev-test01→main: open via GitHub compare (gh not logged in on dev machine).
+- Loom + submission email: user (see docs/Loom_Guide.md).
+- Weights: models/runs/unet_pen/best.pt local; add SHA-256 to README (scripts/hash_checkpoint.ps1).
 ```
 
 ---

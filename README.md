@@ -231,4 +231,14 @@ Commit `dataset/splits/` and `dataset/meta/` **before** training; add masks in `
 3. Fill `validation/ruler_refs.csv` with ≥10 manual measurements and run `validate_ruler.py`.
 4. Re-train on GPU if CPU epochs are too slow; keep `dataset/splits/` fixed.
 
+## Submission and Loom
+
+- **PR:** https://github.com/kashifmayar/measure-it/compare/main...dev-test01 → merge `dev-test01` into `main`.
+- **Checklist:** `docs/Submission.md`
+- **Loom (5 min + K1–K4):** `docs/Loom_Guide.md` (questions from assessment PDF §7.2).
+
+**Trained weights (local, not in Git):** `models/runs/unet_pen/best.pt`  
+SHA-256: `FD2A9D20AA14632E8CB043A1D0B9B55867E2D7D798D4CBC769849EA952B2C838`  
+Regenerate: `.\scripts\hash_checkpoint.ps1` after retraining.
+
 See `docs/Plan.md`, `docs/Objectives.md`, `docs/Definition_of_Done.md`.

@@ -30,3 +30,8 @@ validation/_failure_tmp.jpg
 !validation/test_metrics.json
 !validation/test_split_measurement_report.json
 !validation/raw_vs_undistorted_pen_0042.json
+!validation/raw_vs_undistorted_batch.json
+!validation/rejection_report_test.json
+!validation/ruler_refs.csv
+validation/_loom_extract.txt
+validation/_pdf_extract.txt
