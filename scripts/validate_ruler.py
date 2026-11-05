@@ -24,6 +24,14 @@ from measurement.config import MeasurementConfig
 from measurement.measure_pen import measure_pen_image
 
 
+def _resolve_image(stem: str, image_dir: Path, raw_dir: Path) -> Path | None:
+    for base, ext in ((raw_dir, ".HEIC"), (raw_dir, ".heic"), (image_dir, ".jpg"), (image_dir, ".jpeg")):
+        p = base / f"{stem}{ext}"
+        if p.is_file():
+            return p
+    return None
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Ruler/calliper vs system mm comparison.")
     parser.add_argument("--csv", type=Path, required=True)
@@ -31,8 +39,14 @@ def main() -> None:
     parser.add_argument("--params", type=Path, default=ROOT / "calibration" / "camera_params.npz")
     parser.add_argument("--checkpoint", type=Path, default=None)
     parser.add_argument("--image-dir", type=Path, default=ROOT / "dataset" / "images")
+    parser.add_argument("--raw-dir", type=Path, default=ROOT / "dataset" / "raw")
     parser.add_argument("--out", type=Path, default=ROOT / "validation" / "ruler_comparison.json")
     parser.add_argument("--allow-poor-calibration", action="store_true")
+    parser.add_argument(
+        "--skip-undistort",
+        action="store_true",
+        help="Use raw photos without undistort (recommended until calibration is fixed).",
+    )
     args = parser.parse_args()
 
     config = MeasurementConfig(marker_size_mm=args.marker_size_mm)
@@ -43,15 +57,17 @@ def main() -> None:
             stem = row["image"].strip()
             ref_l = float(row["reference_length_mm"])
             ref_w = float(row["reference_width_mm"])
-            img_path = args.image_dir / stem
-            if not img_path.suffix:
-                img_path = img_path.with_suffix(".jpg")
+            img_path = _resolve_image(stem, args.image_dir, args.raw_dir)
+            if img_path is None:
+                rows.append({"image": stem, "status": "missing_image"})
+                continue
             result, _, _, _ = measure_pen_image(
                 img_path,
                 args.params,
                 config,
                 allow_poor_calibration=args.allow_poor_calibration,
                 checkpoint=args.checkpoint,
+                skip_undistort=args.skip_undistort,
             )
             entry = {
                 "image": stem,

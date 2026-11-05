@@ -35,5 +35,7 @@ validation/_failure_tmp.jpg
 !validation/raw_vs_undistorted_batch.json
 !validation/rejection_report_test.json
 !validation/ruler_refs.csv
+!validation/raw_vs_undistorted_ruler_stems.json
+!validation/rejection_report_raw.json
 validation/_loom_extract.txt
 validation/_pdf_extract.txt

@@ -117,16 +117,19 @@ Demo pipeline (2026-11-05): dataset/raw/pen_0042.HEIC, marker 34 mm, --skip-undi
 Test split batch (raw HEIC, skip undistort): 1/9 accepted — see validation/test_split_measurement_report.json
 Ruler/calliper: validation/ruler_refs.csv (10+ rows with system mm prefilled) — fill reference_* columns, then validate_ruler.py.
 
-Rejection (test split, dataset/images JPG): validation/rejection_report_test.json — 0/9 accepted (no ArUco in training crops); use dataset/raw for measurement.
+Rejection (test split JPG): validation/rejection_report_test.json — 0/9 (training crops, no ArUco).
+Rejection (raw HEIC, first 25 sorted): validation/rejection_report_raw.json — 0/25 (early files often no marker).
+Rejection on ruler stems: 7/10 accept with skip_undistort — see raw_vs_undistorted_ruler_stems.json.
+Thresholds: measurement/config.py; README.
 ```
 
 ### Raw vs undistorted comparison
 
 ```text
+Ruler stems (10): validation/raw_vs_undistorted_ruler_stems.json
+  raw_success: 7/10, undist_success: 1/10 (bad calibration ~17 px — undistort breaks ArUco on most frames)
+  Use --skip-undistort on raw HEIC until recalibration; then re-run scripts/raw_vs_undist_ruler_stems.py
 Single instance: validation/raw_vs_undistorted_pen_0042.json
-Batch (12 early stems): validation/raw_vs_undistorted_batch.json — mostly reject until recalibration;
-  pen_0042: raw path succeeds (23.77 mm L) with --skip-undistort; undistort path rejects (bad cal).
-After recalibration, re-run scripts/batch_raw_vs_undistorted.py and paste updated table here.
 ```
 
 ---

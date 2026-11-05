@@ -1,0 +1,110 @@
+{
+  "summary": {
+    "stems_compared": 10,
+    "raw_success": 7,
+    "undist_success": 1,
+    "note": "Low undist_success expected until calibration reprojection <= 2 px."
+  },
+  "rows": [
+    {
+      "stem": "pen_0036",
+      "file": "pen_0036.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null
+    },
+    {
+      "stem": "pen_0037",
+      "file": "pen_0037.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null
+    },
+    {
+      "stem": "pen_0038",
+      "file": "pen_0038.HEIC",
+      "raw_status": "success",
+      "raw_length_mm": 22.57,
+      "raw_width_mm": 4.18,
+      "undist_status": "success",
+      "undist_length_mm": 20.3,
+      "undist_width_mm": 3.66
+    },
+    {
+      "stem": "pen_0045",
+      "file": "pen_0045.HEIC",
+      "raw_status": "success",
+      "raw_length_mm": 24.17,
+      "raw_width_mm": 3.98,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null
+    },
+    {
+      "stem": "pen_0050",
+      "file": "pen_0050.HEIC",
+      "raw_status": "success",
+      "raw_length_mm": 16.02,
+      "raw_width_mm": 2.78,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null
+    },
+    {
+      "stem": "pen_0051",
+      "file": "pen_0051.HEIC",
+      "raw_status": "success",
+      "raw_length_mm": 7.82,
+      "raw_width_mm": 3.85,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null
+    },
+    {
+      "stem": "pen_0062",
+      "file": "pen_0062.HEIC",
+      "raw_status": "success",
+      "raw_length_mm": 22.45,
+      "raw_width_mm": 3.07,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null
+    },
+    {
+      "stem": "pen_0066",
+      "file": "pen_0066.HEIC",
+      "raw_status": "success",
+      "raw_length_mm": 11.49,
+      "raw_width_mm": 3.27,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null
+    },
+    {
+      "stem": "pen_0068",
+      "file": "pen_0068.HEIC",
+      "raw_status": "rejected",
+      "raw_length_mm": null,
+      "raw_width_mm": null,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null
+    },
+    {
+      "stem": "pen_0069",
+      "file": "pen_0069.HEIC",
+      "raw_status": "success",
+      "raw_length_mm": 24.43,
+      "raw_width_mm": 3.37,
+      "undist_status": "rejected",
+      "undist_length_mm": null,
+      "undist_width_mm": null
+    }
+  ]
+}
